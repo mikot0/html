@@ -100,27 +100,37 @@
 </div>
 
 <script>
-    let submittedData = [];
-
     function submitForm() {
         const domain = document.getElementById('domain').value;
         const price = document.getElementById('price').value;
         const email = document.getElementById('email').value;
-
         if (!/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/.test(domain) || !/^[\d¥$\s]+$/.test(price) || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email)) {
             return alert('输入格式错误');
         }
-
-        submittedData.push({ domain, price, email });
-        alert('提交成功');
+        fetch('data.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ domain, price, email })
+        })
+            .then(response => response.json())
+            .then(data => alert(data.success ? '提交成功' : '提交失败'))
+            .catch(error => alert('请求失败: ' + error));
     }
 
     function login() {
         const password = prompt('输入密码查看表格：');
         if (password === null) return;
-
         if (password === '1') {
-            alert(submittedData.map(d => `域名: ${d.domain} | 价格: ${d.price} | 邮箱: ${d.email}`).join('\n'));
+            fetch('data.php', { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.data.map(d => `域名: ${d.domain} | 价格: ${d.price} | 邮箱: ${d.email}`).join('\n'));
+                    } else {
+                        alert('');
+                    }
+                })
+                .catch(error => alert('请求失败: ' + error));
         } else {
             alert('密码错误');
         }
