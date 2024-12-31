@@ -1,0 +1,128 @@
+<meta charset="UTF-8">
+<style>
+    body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url('https://api.maho.cc/asuhe-rand/index.php') fixed 0% 0% / cover;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 16rem;
+        padding: 1.6rem;
+        background: rgb(255 255 255 / 39%);
+        border-radius: 1.6rem;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    @media (max-width: 1024px) {
+        .card {
+            max-width: 52rem;
+            font-size: 66;
+        }
+
+        input {
+            height: 12.3rem !important;
+            font-size: 66;
+        }
+
+        .button {
+            height: 12.3rem;
+            font-size: 66;
+        }
+    }
+
+    h7 {
+        text-align: center;
+        margin-top: 6px;
+    }
+
+    input {
+        padding: .6rem;
+        width: 100%;
+        height: 2.5rem;
+        margin-bottom: 1.23rem;
+        border-radius: .6rem;
+        background: #fff6;
+        border: 0;
+        outline: none;
+    }
+
+    input:focus {
+        border: 1px solid #fff;
+    }
+
+    .button {
+        width: 100%;
+        padding: .3rem;
+        border-radius: 1rem;
+        background: linear-gradient(270deg, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.2) 80%);
+        background-size: 200% 100%;
+        border: 1px solid transparent;
+        transition: .3s cubic-bezier(0.55, 0, 0.35, 1);
+        transition-property: opacity, border-color;
+        animation: background-animation 1.2s cubic-bezier(0.55, 0, 0.35, 1) infinite alternate;
+    }
+
+    .button:hover {
+        opacity: 0.6;
+        border-color: #fff;
+    }
+
+    @keyframes background-animation {
+        0% {
+            background-position: 0 0
+        }
+
+        100% {
+            background-position: 100% 0
+        }
+    }
+</style>
+
+<div class="card">
+    <h7 class="button">china.com(1$)</h7>
+    <br>
+    域名出售<p>
+        <input class="input" id="domain" placeholder="填写域名" required>
+        <input class="input" id="price" placeholder="填写价格:1¥|1$" required>
+        <input class="input" id="email" placeholder="填写邮箱" required>
+        <button class="button" onclick="submitForm()">提交表格</button>
+        <button class="button" style="margin-top: 10px;" onclick="login()">登陆</button>
+        <a href="https://t.me/cherrymiku" style="color: #000;">@cherrymiku</a>
+        <a href="https://github.com/mikot0/html" style="color: #000;">github</a>
+</div>
+
+<script>
+    let submittedData = [];
+
+    function submitForm() {
+        const domain = document.getElementById('domain').value;
+        const price = document.getElementById('price').value;
+        const email = document.getElementById('email').value;
+
+        if (!/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/.test(domain) || !/^[\d¥$\s]+$/.test(price) || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email)) {
+            return alert('输入格式错误');
+        }
+
+        submittedData.push({ domain, price, email });
+        alert('提交成功');
+    }
+
+    function login() {
+        const password = prompt('输入密码查看表格：');
+        if (password === null) return;
+
+        if (password === '1') {
+            alert(submittedData.map(d => `域名: ${d.domain} | 价格: ${d.price} | 邮箱: ${d.email}`).join('\n'));
+        } else {
+            alert('密码错误');
+        }
+    }
+</script>
